@@ -23,6 +23,7 @@ module.exports = async function download(output) {
 
     const buffer = await response.buffer()
     if (
+        response.url === "https://i.imgur.com/removed.png" ||
         response.url === ERROR_URL ||
         response.status === 404 ||
         buffer.toString().trim().startsWith("<!DOCTYPE html>")
