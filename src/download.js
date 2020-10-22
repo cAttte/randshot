@@ -20,10 +20,15 @@ module.exports = async function download(output) {
     const total = (await fs.readdir(output)).length
 
     if (response.status === 403) util.error("This IP has been {banned} from Lightshot.")
-    if (response.url === ERROR_URL || response.status === 404)
-        return util.error(`{${id}}: The screenshot does not exist.`, false)
 
     const buffer = await response.buffer()
+    if (
+        response.url === ERROR_URL ||
+        response.status === 404 ||
+        buffer.toString().trim().startsWith("<!DOCTYPE html>")
+    )
+        return util.error(`{${id}}: The screenshot does not exist.`, false)
+
     const size = filesize(buffer.length)
     await fs
         .writeFile(path.join(output, id + ".png"), buffer)
