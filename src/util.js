@@ -8,7 +8,7 @@ module.exports = {
         if (exit) process.exit()
     },
     success(message) {
-        message = message.replace(/\{(.+)\}/g, (_, $1) => chalk.yellowBright($1))
+        message = message.replace(/\{(.+)\}/g, (_, $1) => chalk.greenBright($1))
         console.log(symbols.success + " " + message)
     }
 }
