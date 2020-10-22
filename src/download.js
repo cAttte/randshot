@@ -1,6 +1,7 @@
 const fs = require("fs/promises")
 const path = require("path")
 const fetch = require("node-fetch")
+const filesize = require("filesize")
 const generateID = require("./generateID")
 const util = require("./util")
 
@@ -23,8 +24,9 @@ module.exports = async function download(output) {
         return util.error(`{${id}}: The screenshot does not exist.`, false)
 
     const buffer = await response.buffer()
+    const size = filesize(buffer.length)
     await fs
         .writeFile(path.join(output, id + ".png"), buffer)
-        .then(() => util.success(`{${id}}: Downloaded. Total: {${total + 1}}.`))
+        .then(() => util.success(`{${id}}: Downloaded (${size}). Total: {${total + 1}}.`))
         .catch(() => util.error(`{${id}}: Failed to save.`, false))
 }
