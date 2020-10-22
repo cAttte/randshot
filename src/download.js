@@ -4,6 +4,8 @@ const fetch = require("node-fetch")
 const generateID = require("./generateID")
 const util = require("./util")
 
+const ERROR_URL = "https://st.prntscr.com/2020/08/01/0537/img/0_173a7b_211be8ff.png"
+
 module.exports = async function download(output) {
     const id = generateID()
     const url = `https://prnt.sc/${id}/direct`
@@ -17,9 +19,12 @@ module.exports = async function download(output) {
     const total = (await fs.readdir(output)).length
 
     if (response.status === 403) util.error("This IP has been {banned} from Lightshot.")
+    if (response.url === ERROR_URL || response.status === 404)
+        return util.error(`{${id}}: The screenshot does not exist.`, false)
+
     const buffer = await response.buffer()
     await fs
         .writeFile(path.join(output, id + ".png"), buffer)
-        .then(() => util.success(`{${id}}: Downloaded. Total: {${total + 1}}`))
+        .then(() => util.success(`{${id}}: Downloaded. Total: {${total + 1}}.`))
         .catch(() => util.error(`{${id}}: Failed to save.`, false))
 }
