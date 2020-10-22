@@ -16,9 +16,10 @@ module.exports = async function download(output) {
     if (error) return
     const total = (await fs.readdir(output)).length
 
+    if (response.status === 403) util.error("This IP has been {banned} from Lightshot.")
     const buffer = await response.buffer()
     await fs
         .writeFile(path.join(output, id + ".png"), buffer)
         .then(() => util.success(`{${id}}: Downloaded. Total: {${total + 1}}`))
-        .catch(() => util.error(`{${id}}: Failed to save.`))
+        .catch(() => util.error(`{${id}}: Failed to save.`, false))
 }
