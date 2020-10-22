@@ -23,14 +23,13 @@ module.exports = async function download(output) {
     if (
         response.url === "https://i.imgur.com/removed.png" ||
         response.url === ERROR_URL ||
-        response.status === 404 ||
-        buffer.toString().trim().startsWith("<!DOCTYPE html>")
+        response.status === 404
     )
         return util.error(`{${id}}: The screenshot does not exist.`, false)
 
     if (response.status === 403) util.error("This IP has been {banned} from Lightshot.")
-    if (response.status === 503) util.error("Service temporarily unavailable.", false)
-    else if (response.status !== 200) util.error("Unknown error.", false)
+    if (response.status === 503) return util.error(`{${id}}: Service unavailable.`, false)
+    else if (response.status !== 200) return util.error(`{${id}}: Unknown error.`, false)
 
     const size = filesize(buffer.length)
     await fs
