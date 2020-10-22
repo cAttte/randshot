@@ -19,8 +19,6 @@ module.exports = async function download(output) {
     if (error) return
     const total = (await fs.readdir(output)).length
 
-    if (response.status === 403) util.error("This IP has been {banned} from Lightshot.")
-
     const buffer = await response.buffer()
     if (
         response.url === "https://i.imgur.com/removed.png" ||
@@ -29,6 +27,10 @@ module.exports = async function download(output) {
         buffer.toString().trim().startsWith("<!DOCTYPE html>")
     )
         return util.error(`{${id}}: The screenshot does not exist.`, false)
+
+    if (response.status === 403) util.error("This IP has been {banned} from Lightshot.")
+    if (response.status === 503) util.error("Service temporarily unavailable.", false)
+    else if (response.status !== 200) util.error("Unknown error.", false)
 
     const size = filesize(buffer.length)
     await fs
