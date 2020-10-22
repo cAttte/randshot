@@ -10,5 +10,11 @@
     "author": "catte_",
     "license": "MIT",
     "bugs": "https://github.com/cAttte/randshot/issues",
-    "homepage": "https://github.com/cAttte/randshot#readme"
+    "homepage": "https://github.com/cAttte/randshot#readme",
+    "dependencies": {
+        "chalk": "^4.1.0",
+        "commander": "^6.1.0",
+        "log-symbols": "^4.0.0",
+        "node-fetch": "^2.6.1"
+    }
 }
