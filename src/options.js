@@ -17,21 +17,23 @@ module.exports = function options(program) {
     program.option(
         "-o, --output <path>",
         "The path where to save the images.",
-        input => {
-            input = path.resolve(input)
-            try {
-                fs.accessSync(input)
-            } catch {
-                try {
-                    fs.mkdirSync(input)
-                } catch {
-                    util.error(`Could not create {${input}}.`)
-                }
-            }
-            return input
-        },
-        "./output"
+        checkOutput,
+        checkOutput("./output")
     )
 
     program.helpInformation = () => "help"
+}
+
+function checkOutput(input) {
+    input = path.resolve(input)
+    try {
+        fs.accessSync(input)
+    } catch {
+        try {
+            fs.mkdirSync(input)
+        } catch {
+            util.error(`Could not create {${input}}.`)
+        }
+    }
+    return input
 }
