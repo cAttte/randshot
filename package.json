@@ -1,0 +1,14 @@
+{
+    "name": "randshot",
+    "version": "0.0.0",
+    "description": "Random Lightshot screenshot generator.",
+    "bin": "src/index.js",
+    "repository": "cAttte/randshot",
+    "keywords": [
+        "lightshot"
+    ],
+    "author": "catte_",
+    "license": "MIT",
+    "bugs": "https://github.com/cAttte/randshot/issues",
+    "homepage": "https://github.com/cAttte/randshot#readme"
+}
